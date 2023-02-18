@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Google Drive OAuth Token Copier</title>
+    <meta charset="UTF-8">
+    <style>
+      /* Center the copy box and the title */
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        background-color: #202020;
+        color: #fff;
+      }
+      /* Style the title */
+      h1 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        color: #fff;
+      }
+      /* Style the subtitle */
+      h2 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        color: green;
+      }
+      /* Style the copy box */
+      #oauth-token {
+        width: 30rem;
+        padding: 1rem;
+        font-size: 1.2rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        text-align: center;
+        background-color: #f1f1f1;
+      }
+      /* Style the copy button */
+      button {
+        margin-top: 1rem;
+        padding: 0.5rem 1rem;
+        font-size: 1.2rem;
+        border-radius: 4px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+      }
+      /* Style the success message */
+      .success {
+        color: green;
+        margin-top: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>SPACE X BOTS</h1>
+    <h2>Google Drive OAuth token generated</h2>
+    <input type="text" id="oauth-token" readonly>
+    <button onclick="copyToken()">Copy Token</button>
+    <div class="success" id="success-message"></div>
+    
+    <script>
+      function copyToken() {
+        // Get the input element that contains the token
+        var tokenInput = document.getElementById("oauth-token");
+
+        // Select the contents of the input element
+        tokenInput.select();
+        tokenInput.setSelectionRange(0, 99999); // For mobile devices
+
+        // Copy the selected text to the clipboard
+        document.execCommand("copy");
+        
+        // Show a success message
+        var successMessage = document.getElementById("success-message");
+        successMessage.innerHTML = "Token copied to clipboard!";
+      }
+    </script>
+  </body>
+</html>
