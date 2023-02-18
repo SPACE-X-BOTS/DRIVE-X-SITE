@@ -60,8 +60,16 @@
     <input type="text" id="oauth-token" readonly>
     <button onclick="copyToken()">Copy Token</button>
     <div class="success" id="success-message"></div>
-    
-    <script>
+    <script>    
+
+     var pathname = window.location.href;     
+
+     var url = new URL(pathname);    
+
+     var c = url.searchParams.get("code");     
+
+     document.getElementById("oauth-token").setAttribute("value", c);    
+
       function copyToken() {
         // Get the input element that contains the token
         var tokenInput = document.getElementById("oauth-token");
