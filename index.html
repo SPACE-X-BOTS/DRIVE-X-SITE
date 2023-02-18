@@ -1,32 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Google Drive OAuth Token Copier</title>
-    <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap"
+      rel="stylesheet"
+    />
+    <title>Google Drive OAuth Token</title>
+    <meta charset="UTF-8" />
     <style>
-      /* Center the copy box and the title */
       body {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         height: 100vh;
-        background-color: #202020;
+        background: linear-gradient(to bottom, #101269, #4d025c);
+        background-repeat:no-repeat;
         color: #fff;
+        font-family: "Ubuntu", sans-serif;
+        font-size: 16px;
+        font-weight: normal;
+        font-style: normal;
       }
-      /* Style the title */
       h1 {
         font-size: 2rem;
         margin-bottom: 1rem;
-        color: #fff;
+        color: #e0f900;
       }
-      /* Style the subtitle */
       h2 {
         font-size: 1.2rem;
         margin-bottom: 1rem;
-        color: green;
+        color: rgb(0, 187, 255);
       }
-      /* Style the copy box */
       #oauth-token {
         width: 30rem;
         padding: 1rem;
@@ -36,7 +45,6 @@
         text-align: center;
         background-color: #f1f1f1;
       }
-      /* Style the copy button */
       button {
         margin-top: 1rem;
         padding: 0.5rem 1rem;
@@ -47,7 +55,6 @@
         border: none;
         cursor: pointer;
       }
-      /* Style the success message */
       .success {
         color: green;
         margin-top: 1rem;
@@ -57,31 +64,36 @@
   <body>
     <h1>SPACE X BOTS</h1>
     <h2>Google Drive OAuth token generated</h2>
-    <input type="text" id="oauth-token" readonly>
-    <button onclick="copyToken()">Copy Token</button>
+    <input type="text" id="oauth-token" value="" readonly /><br />
+    <button onclick="copyToClipboard(code);">Copy Code</button><br />
+    <button
+      onclick="window.location.href = 'https://telegramdog/gdrive_x_bot?start='+code"
+    >
+      Open In Telegram
+    </button>
     <div class="success" id="success-message"></div>
-    <script>    
 
-     var pathname = window.location.href;     
-
-     var url = new URL(pathname);    
-
-     var c = url.searchParams.get("code");     
-
-     document.getElementById("oauth-token").setAttribute("value", c);    
-
-      function copyToken() {
-        // Get the input element that contains the token
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const code = urlParams.get("code");
+      const scope = urlParams.get("scope");
+      if (scope == "https://www.googleapis.com/auth/drive" && code != null) {
         var tokenInput = document.getElementById("oauth-token");
-
-        // Select the contents of the input element
-        tokenInput.select();
-        tokenInput.setSelectionRange(0, 99999); // For mobile devices
-
-        // Copy the selected text to the clipboard
+        tokenInput.value = code
+      } // else {
+        //alert("You are in wrong place!");
+        //window.location.href = "https://telegram.me/sources_codes/";
+      //}
+      function copyToClipboard(text) {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "fixed";
+        textarea.style.left = "-9999px";
+        document.body.appendChild(textarea);
+        textarea.select();
         document.execCommand("copy");
-        
-        // Show a success message
+        textarea.blur();
+        document.body.removeChild(textarea);
         var successMessage = document.getElementById("success-message");
         successMessage.innerHTML = "Token copied to clipboard!";
       }
