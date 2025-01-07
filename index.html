@@ -1,101 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <title>Google Drive</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap"
-      rel="stylesheet"
-    />
-    <title>Google Drive OAuth Token</title>
-    <meta charset="UTF-8" />
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet" />
     <style>
-      body {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        background-color: #202020;
-        color: #fff;
-        font-family: "Ubuntu", sans-serif;
-        font-size: 16px;
-        font-weight: normal;
-        font-style: normal;
-      }
-      h1 {
-        font-size: 2rem;
-        margin-bottom: 1rem;
-        color: #e0f900;
-      }
-      h2 {
-        font-size: 1.2rem;
-        margin-bottom: 1rem;
-        color: rgb(0, 187, 255);
-      }
-      #oauth-token {
-        width: 30rem;
-        padding: 1rem;
-        font-size: 1.2rem;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        text-align: center;
-        background-color: #f1f1f1;
-      }
-      button {
-        margin-top: 1rem;
-        padding: 0.5rem 1rem;
-        font-size: 1.2rem;
-        border-radius: 4px;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        cursor: pointer;
-      }
-      .success {
-        color: green;
-        margin-top: 1rem;
-      }
+        body {
+            margin: 0;
+            font-family: "Ubuntu", sans-serif;
+            background: linear-gradient(145deg, #202020, #434343);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            background: #1c1c1c;
+            border: 1px solid #333;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .container h1 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #e0f900;
+        }
+
+        .input-box {
+            width: calc(100% - 20px); /* Dynamically adjusts */
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            border: 1px solid #555;
+            border-radius: 5px;
+            background: #2b2b2b;
+            color: #fff;
+            text-align: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #fff;
+            background: #007bff;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
+
+        .btn:active {
+            background: #003f7f;
+        }
+
+        .message {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #0f0;
+        }
     </style>
-  </head>
-  <body>
-    <h1>SPACE X BOTS</h1>
-    <h2>Google Drive OAuth token generated</h2>
-    <input type="text" id="oauth-token" value="" readonly /><br />
-    <button onclick="copyToClipboard(code);">Copy Code</button><br />
-    <button
-      onclick="window.location.href = 'https://telegram.dog/gdrive_x_bot?start='+code"
-    >
-      Open In Telegram
-    </button>
-    <div class="success" id="success-message"></div>
+</head>
+<body>
+    <div class="container">
+        <h1>SPACE X BOTS</h1>
+        <input type="text" id="oauth-token" class="input-box" value="" readonly />
+        <button class="btn" onclick="copyToClipboard()">Copy Code</button>
+        <div class="message" id="success-message"></div>
+    </div>
 
     <script>
-      const urlParams = new URLSearchParams(window.location.search);
-      const code = urlParams.get("code");
-      const scope = urlParams.get("scope");
-      if (scope == "https://www.googleapis.com/auth/drive" && code != null) {
-        var tokenInput = document.getElementById("oauth-token");
-        tokenInput.value = code
-      } // else {
-        //alert("You are in wrong place!");
-        //window.location.href = "https://telegram.me/sources_codes/";
-      //}
-      function copyToClipboard(text) {
-        const textarea = document.createElement("textarea");
-        textarea.value = text;
-        textarea.style.position = "fixed";
-        textarea.style.left = "-9999px";
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand("copy");
-        textarea.blur();
-        document.body.removeChild(textarea);
-        var successMessage = document.getElementById("success-message");
-        successMessage.innerHTML = "Token copied to clipboard!";
-      }
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get("code");
+        const scope = urlParams.get("scope");
+        const tokenInput = document.getElementById("oauth-token");
+
+        if (scope === "https://www.googleapis.com/auth/drive" && code) {
+            tokenInput.value = code;
+        }
+
+        function copyToClipboard() {
+            if (!tokenInput.value.trim()) {
+                setMessage("No token to copy.");
+                return;
+            }
+
+            tokenInput.select();
+            document.execCommand("copy");
+            setMessage("Token copied to clipboard!");
+        }
+
+        function setMessage(text) {
+            const successMessage = document.getElementById("success-message");
+            successMessage.textContent = text;
+        }
     </script>
-  </body>
+</body>
 </html>
